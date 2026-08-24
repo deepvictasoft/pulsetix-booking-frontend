@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --color-background: #F8F8F8;               
+  /* #F8F9FC */
+  --color-sidebar-bg: #FFFFFF;  
+  --color-field-bg: #EEF0F7;
+
+  --color-primary: #C44678;
+  --color-primary-hover: #A3325E;
+
+  --color-primary-text: #FFFFFF;
+  --color-secondary-text: #4B5680;
+
+  --color-foreground-text: #0F1123;
+  --color-muted-text: #6B7280;
+
+  --color-primary-border: #D1D5E8;
+  --color-secondary-border: #E2E5F3;
+
+  --color-ring: #C44678;
+  --color-icon: #C44678;
+}
+
+@theme {
+  --color-background: #F8F9FC;
+  --color-sidebar-bg: #FFFFFF;
+  --color-field-bg: #EEF0F7;
+
+  --color-primary: #C44678;
+  --color-primary-hover: #A3325E;
+
+  --color-primary-text: #FFFFFF;
+  --color-secondary-text: #4B5680;
+
+  --color-foreground-text: #0F1123;
+  --color-muted-text: #6B7280;
+
+  --color-primary-border: #D1D5E8;
+  --color-secondary-border: #E2E5F3;
+ 
+  --color-ring: #C44678;
+  --bg-gradient: linear-gradient(135deg, #F09683, #C44678);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  scroll-behavior: smooth;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-field-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-border);
+  border-radius: 4px;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(135deg, #F09683, #C44678);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-gradient {
+  background-image: var(--bg-gradient);
+}
+
