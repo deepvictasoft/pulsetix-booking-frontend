@@ -45,42 +45,36 @@ const EventDetailHero = ({ event }) => {
             {title}
           </Typography>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-2 text-sm text-muted-text">
-            <span className="inline-flex items-center gap-1.5">
-              <Icon
-                name="Calendar"
-                width={15}
-                height={15}
-                className="text-primary"
-              />
-              {schedule.startLabel.split(" at ")[0]}
-            </span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-2">
+            <div className="rounded-xl border border-primary-border bg-sidebar-bg px-3.5 py-2.5">
+              <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-wide text-muted-text mb-1">
+                <Icon name="Calendar" width={13} height={13} className="text-primary" />
+                Date
+              </span>
+              <Typography variant="body" className="!text-sm font-semibold">
+                {schedule.startLabel.split(" at ")[0]}
+              </Typography>
+            </div>
 
-            <span className="inline-flex items-center gap-1.5">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="text-primary"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-              {schedule.startTime} – {schedule.endTime}
-            </span>
+            <div className="rounded-xl border border-primary-border bg-sidebar-bg px-3.5 py-2.5">
+              <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-wide text-muted-text mb-1">
+                <Icon name="Clock" width={13} height={13} className="text-primary" />
+                Start Time
+              </span>
+              <Typography variant="body" className="!text-sm font-semibold">
+                {schedule.startTime} – {schedule.endTime}
+              </Typography>
+            </div>
 
-            <span className="inline-flex items-center gap-1.5">
-              <Icon
-                name="MapPin"
-                width={15}
-                height={15}
-                className="text-primary"
-              />
-              {venue}
-            </span>
+            <div className="rounded-xl border border-primary-border bg-sidebar-bg px-3.5 py-2.5 col-span-2 sm:col-span-1">
+              <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-wide text-muted-text mb-1">
+                <Icon name="MapPin" width={13} height={13} className="text-primary" />
+                Venue
+              </span>
+              <Typography variant="body" className="!text-sm font-semibold truncate">
+                {venue}
+              </Typography>
+            </div>
           </div>
 
           {/* <Typography
