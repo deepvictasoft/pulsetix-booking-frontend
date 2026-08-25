@@ -62,7 +62,7 @@ const EventFilters = ({ filters, onChange }) => {
         onChange({ ...filters, location: "All Locations", date: null, price: "Any Price" });
 
     return (
-        <section className="max-w-9xl mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 mt-12 lg:mt-16">
+        <section className="max-w-9xl mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 mt-8 lg:mt-10">
             <div className="flex flex-wrap items-center gap-3">
                 <Dropdown
                     icon="MapPin"

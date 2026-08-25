@@ -70,7 +70,7 @@ export const FOOTER_ITEMS = [
         heading: "Organise",
         items: [
             { label: "Become an Organiser", to: "/become-organiser" },
-            { label: "Log in / Signup", to: "/login" },
+            { label: "Log in / Signup", to: "/signup" },
             { label: "Get the App", to: "/get-app" },
         ],
     },

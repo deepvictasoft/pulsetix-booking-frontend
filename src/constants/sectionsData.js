@@ -196,6 +196,29 @@ export const WHY_PULSETIX = [
   },
 ];
 
+export const APP_DOWNLOAD_FEATURES = [
+  {
+    icon: "Calendar",
+    title: "Discover Events",
+    desc: "Find events that match your vibe.",
+  },
+  {
+    icon: "Ticket",
+    title: "Book Tickets",
+    desc: "Secure your spot in just a few taps.",
+  },
+  {
+    icon: "Users",
+    title: "Stay Connected",
+    desc: "Connect with friends & fellow event lovers.",
+  },
+  {
+    icon: "Bell",
+    title: "Instant Updates",
+    desc: "Get real-time updates and reminders.",
+  },
+];
+
 export const STORE_BADGES = [
   {
     href: "#",
@@ -211,4 +234,25 @@ export const STORE_BADGES = [
     caption: "GET IT ON",
     title: "Google Play",
   },
+];
+
+export const TESTIMONIALS = [
+  {
+    quote: "PulseTix makes discovering and booking events so easy. Love the clean interface and fast booking!",
+    name: "Sarah J.",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80",
+    rating: 5,
+  },
+  {
+    quote: "Found amazing gigs and experiences I wouldn't have found anywhere else. Highly recommended!",
+    name: "Mark D.",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
+    rating: 5,
+  },
+  {
+    quote: "Secure payments and great support. PulseTix is my go-to for every weekend plan.",
+    name: "Aoife K.",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80",
+    rating: 5,
+  }
 ];

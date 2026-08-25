@@ -11,6 +11,7 @@ import {
   ArrowLeftRight,
   Paperclip,
   Zap,
+  Flag,
   ArrowRight,
   MessageCircle,
   MapPin,
@@ -83,11 +84,16 @@ import {
   RefreshCcw,
   Headphones,
   Phone,
-  ArrowLeft
+  ArrowLeft,
+  Quote,
+  Star,
+  Activity,
+  UserPlus
 } from "lucide-react";
 
 import Logo from "./Logo";
 import { Facebook, Instagram, Linkedin, TikTok } from "./Social";
+import { QuoteIcon } from "./Quotes";
 
 export const LUCIDE_ICONS = {
   Menu: Menu,
@@ -155,6 +161,7 @@ export const LUCIDE_ICONS = {
   Trash2: Trash2,
   Plus: Plus,
   Clock: Clock,
+  Flag: Flag,
   XCircle: XCircle,
   Filter: Filter,
   Briefcase: Briefcase,
@@ -174,7 +181,11 @@ export const LUCIDE_ICONS = {
   RefreshCcw: RefreshCcw,
   Headphones: Headphones,
   Phone: Phone,
-  ArrowLeft: ArrowLeft
+  ArrowLeft: ArrowLeft,
+  Quote: Quote,
+  Star: Star,
+  Activity: Activity,
+  UserPlus: UserPlus
 };
 
 export const ICONS_MAP = {
@@ -183,4 +194,5 @@ export const ICONS_MAP = {
   Instagram: Instagram,
   Linkedin: Linkedin,
   TikTok: TikTok,
-};
+  Quotes: QuoteIcon
+};  

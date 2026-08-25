@@ -1,10 +1,19 @@
 "use client";
+import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const Header = dynamic(() => import("./Header"), { ssr: false });
 const Footer = dynamic(() => import("./Footer"), { ssr: false });
 
+const AUTH_ROUTES = ["/login", "/signup", "/forgot-password", "/reset-password"];
+
 const LayoutContent = ({ children }) => {
+  const pathname = usePathname();
+  const isAuth = AUTH_ROUTES.some((r) => pathname?.startsWith(r));
+
+  if (isAuth) {
+    return <>{children}</>;
+  }
 
   return (
     <>
@@ -18,9 +27,7 @@ const LayoutContent = ({ children }) => {
 };
 
 const ClientLayout = ({ children }) => {
-  return (
-      <LayoutContent>{children}</LayoutContent>
-  );
+  return <LayoutContent>{children}</LayoutContent>;
 };
 
 export default ClientLayout;

@@ -91,7 +91,7 @@ const CatGrid = ({ cats, cols }) => (
 
 const CategoryStrip = () => {
   return (
-    <section className="max-w-9xl mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 mt-16 lg:mt-20">
+    <section className="max-w-9xl mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 mt-12 lg:mt-16">
       <div className="inline-flex gap-3 items-center text-sm font-semibold text-foreground-text mb-2">
         <Icon name="Sparkle" size={18} className="text-primary" />
         <Typography variant="body2" className="uppercase text-sm tracking-widest">

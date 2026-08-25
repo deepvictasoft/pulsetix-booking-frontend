@@ -78,7 +78,7 @@ const FooterColumn = ({ heading, items }) => {
           <li key={item.label}>
             <Link
               href={item.to}
-              className="text-sm text-background hover:text-muted-text transition-colors"
+              className="text-sm text-primary-text hover:text-background transition-colors"
             >
               {item.label}
             </Link>

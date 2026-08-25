@@ -7,7 +7,7 @@ import { EVENTS } from "@/constants/sectionsData";
 
 const HotRightNow = () => {
     return (
-        <section className="mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 mt-12 lg:mt-16 ">
+        <section className="mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 mt-12 lg:mt-16">
             <div className="flex items-center justify-between mb-6">
                 <Typography variant="sectionTitle" className="flex items-center gap-2">
                     <Icon name="Flame" size={20} className="text-primary" />

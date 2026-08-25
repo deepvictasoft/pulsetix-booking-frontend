@@ -2,7 +2,7 @@ import Icon from "./Icon";
 import { cn } from "@/lib/utils";
 
 const fieldClass =
-  "w-full h-11 rounded-xl border border-secondary-border bg-field-bg px-4 text-sm text-foreground-text placeholder:text-muted-text outline-none transition-all focus:border-primary focus:ring-2 focus:ring-ring/40 disabled:opacity-60 disabled:cursor-not-allowed";
+  "w-full h-11 rounded-lg border border-secondary-border bg-field-bg px-4 text-sm text-foreground-text placeholder:text-muted-text outline-none transition-all focus:border-primary focus:ring-2 focus:ring-ring/40 disabled:opacity-60 disabled:cursor-not-allowed";
 
 export const Label = ({ children }) => (
   <label className="block text-xs font-medium text-muted-text mb-1.5">{children}</label>
