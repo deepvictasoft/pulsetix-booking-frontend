@@ -27,8 +27,12 @@ const QuantityStepper = ({ value, onChange, min = 0, max = 20 }) => {
       <button
         type="button"
         onClick={inc}
+        disabled={value >= max}
         aria-label="Increase"
-        className="w-7 h-7 rounded-full flex items-center justify-center text-foreground-text hover:bg-white/10 transition-colors"
+        className={cn(
+          "w-7 h-7 rounded-full flex items-center justify-center text-foreground-text hover:bg-white/10 transition-colors",
+          value >= max && "opacity-40 cursor-not-allowed hover:bg-transparent"
+        )}
       >
         <span className="text-base leading-none">+</span>
       </button>

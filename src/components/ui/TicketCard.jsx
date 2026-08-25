@@ -10,10 +10,11 @@ import { cn } from "@/lib/utils";
  * variant: "ticket" -> badge top-left, outline heart, "View Ticket" + arrow CTA
  *          "wishlist" -> filled heart top-right (unsave), "View Event" CTA
  */
-const TicketCard = ({ event, variant = "ticket" }) => {
+const TicketCard = ({ event, variant = "ticket", href, showHeart = true }) => {
   const [liked, setLiked] = useState(variant === "wishlist");
   const { id, image, badge, dateMonth, dateDay, title, subtitle, venue, time } = event;
   const isWishlist = variant === "wishlist";
+  const linkHref = href ?? `/events/${id}`;
 
   return (
     <div className="flex flex-col rounded-2xl overflow-hidden border border-primary-border bg-sidebar-bg group hover:border-primary/50 transition-colors">
@@ -34,19 +35,23 @@ const TicketCard = ({ event, variant = "ticket" }) => {
             <span />
           )}
 
-          <button
-            type="button"
-            onClick={() => setLiked((prev) => !prev)}
-            aria-label="Toggle wishlist"
-            className="w-7 h-7 rounded-full bg-black/40 backdrop-blur flex items-center justify-center flex-shrink-0"
-          >
-            <Icon
-              name="Heart"
-              width={14}
-              height={14}
-              className={cn("text-white cursor-pointer", liked && "text-primary fill-primary")}
-            />
-          </button>
+          {showHeart ? (
+            <button
+              type="button"
+              onClick={() => setLiked((prev) => !prev)}
+              aria-label="Toggle wishlist"
+              className="w-7 h-7 rounded-full bg-black/40 backdrop-blur flex items-center justify-center flex-shrink-0"
+            >
+              <Icon
+                name="Heart"
+                width={14}
+                height={14}
+                className={cn("text-white cursor-pointer", liked && "text-primary fill-primary")}
+              />
+            </button>
+          ) : (
+            <span />
+          )}
         </div>
       </div>
 
@@ -74,7 +79,7 @@ const TicketCard = ({ event, variant = "ticket" }) => {
         </div>
 
         <Link
-          href={`/events/${id}`}
+          href={linkHref}
           className={cn(
             "mt-auto flex items-center justify-center gap-2 h-10 rounded-2xl border border-secondary-border text-sm font-medium text-foreground-text hover:border-primary hover:text-primary transition-colors"
           )}

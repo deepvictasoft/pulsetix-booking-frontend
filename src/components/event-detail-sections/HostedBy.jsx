@@ -11,8 +11,12 @@ const HostedBy = ({ host }) => {
       </div>
 
       <div className="rounded-2xl border border-primary-border bg-sidebar-bg p-5">
-        <div className="w-14 h-14 rounded-full bg-background border border-primary-border flex items-center justify-center mb-3">
-          <span className="text-lg font-bold text-primary">{host.name.charAt(0)}</span>
+        <div className="w-14 h-14 rounded-full bg-background border border-primary-border flex items-center justify-center mb-3 overflow-hidden">
+          {host.logo ? (
+            <img src={host.logo} alt={host.name} className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-lg font-bold text-primary">{host.name?.charAt(0) || "O"}</span>
+          )}
         </div>
 
         <div className="flex items-center gap-1.5 mb-1">

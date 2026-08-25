@@ -1,8 +1,7 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import EventListCard from "../ui/EventListCard";
 import Pagination from "./Pagination";
-import { EVENTS_LIST, EVENT_FILTER_CATEGORIES } from "@/constants/eventsData";
 import Typography from "../ui/Typography";
 
 const PAGE_SIZE = 8;
@@ -36,6 +35,46 @@ function matchesCategoryLabel(ev, categoryLabel) {
 
 const EventsGrid = ({ filters = {} }) => {
     const [page, setPage] = useState(1);
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const loadEvents = async () => {
+            setLoading(true);
+            setError("");
+
+            try {
+                const res = await fetch("/api/events");
+                const json = await res.json();
+
+                if (!res.ok || !json.status) {
+                    throw new Error(json.message ?? "Could not load events");
+                }
+
+                if (!cancelled) {
+                    setEvents(Array.isArray(json.data) ? json.data : []);
+                }
+            } catch (err) {
+                if (!cancelled) {
+                    setEvents([]);
+                    setError(err.message ?? "Could not load events");
+                }
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadEvents();
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     const {
         location = "All Locations",
@@ -46,7 +85,7 @@ const EventsGrid = ({ filters = {} }) => {
     } = filters;
 
     const filtered = useMemo(() => {
-        return EVENTS_LIST.filter((ev) => {
+        return events.filter((ev) => {
             // Hard category filter from category page
             if (_categoryLabel && !matchesCategoryLabel(ev, _categoryLabel)) return false;
             // Location
@@ -72,7 +111,7 @@ const EventsGrid = ({ filters = {} }) => {
             }
             return true;
         });
-    }, [location, date, category, price, _categoryLabel]);
+    }, [events, location, date, category, price, _categoryLabel]);
 
     // Reset page on filter change
     useMemo(() => { setPage(1); }, [location, date, category, price, _categoryLabel]);
@@ -87,7 +126,17 @@ const EventsGrid = ({ filters = {} }) => {
 
     return (
         <section className="mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 py-6">
-            {visibleEvents.length === 0 ? (
+            {loading ? (
+                <div className="py-20 text-center">
+                    <Typography variant="heading2" className="mb-2">Loading events</Typography>
+                    <Typography variant="body2">Fetching the latest events for you.</Typography>
+                </div>
+            ) : error ? (
+                <div className="py-20 text-center">
+                    <Typography variant="heading2" className="mb-2">Could not load events</Typography>
+                    <Typography variant="body2">{error}</Typography>
+                </div>
+            ) : visibleEvents.length === 0 ? (
                 <div className="py-20 text-center">
                     <Typography variant="heading2" className="mb-2">No events found</Typography>
                     <Typography variant="body2">Try adjusting your filters to see more results.</Typography>

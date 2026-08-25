@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo } from "react";
 import { useParams } from "next/navigation";
-import { EVENT_FILTER_CATEGORIES, EVENTS_LIST } from "@/constants/eventsData";
+import { EVENT_FILTER_CATEGORIES } from "@/constants/eventsData";
 import EventFilters from "@/components/event-sections/EventFilters";
 import EventsGrid from "@/components/event-sections/EventsGrid";
 import CategoryHero from "@/components/event-category-sections/CategoryHero";

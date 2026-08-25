@@ -119,14 +119,15 @@ const EventDetailHero = ({ event }) => {
                         From €{minPrice.toFixed(2)} – €{maxPrice.toFixed(2)}
                   </Typography>
                 </div>
-                <Button
-                  variant="primary"
-                  icon="ArrowRight"
-                  iconPosition="right"
-                  className="shrink-0"
-                >
-                  Book Tickets
-                </Button>
+                <Link href={`/events/${event.id}/tickets`} className="shrink-0">
+                  <Button
+                    variant="primary"
+                    icon="ArrowRight"
+                    iconPosition="right"
+                  >
+                    Book Tickets
+                  </Button>
+                </Link>
               </div>
             </div>
 
