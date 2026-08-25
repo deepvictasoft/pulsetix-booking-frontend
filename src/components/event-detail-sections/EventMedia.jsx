@@ -3,23 +3,22 @@
 import { useEffect, useState } from "react";
 import Icon from "../ui/Icon";
 import Typography from "../ui/Typography";
-
-const isVideo = (src) =>
-  /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(src) || src.startsWith("video:");
-const cleanSrc = (src) => src.replace(/^video:/, "");
+import { isEmbeddableVideo, parseMediaUrl } from "@/lib/media";
 
 const EventMedia = ({ gallery = [] }) => {
   const [openIndex, setOpenIndex] = useState(null);
 
-  if (!gallery.length) return null;
+  const mediaItems = gallery.map(parseMediaUrl).filter((item) => item.src);
 
-  const visible = gallery.slice(0, 4);
-  const remainingCount = gallery.length - visible.length;
+  if (!mediaItems.length) return null;
+
+  const visible = mediaItems.slice(0, 4);
+  const remainingCount = mediaItems.length - visible.length;
 
   const close = () => setOpenIndex(null);
   const prev = () =>
-    setOpenIndex((i) => (i - 1 + gallery.length) % gallery.length);
-  const next = () => setOpenIndex((i) => (i + 1) % gallery.length);
+    setOpenIndex((i) => (i - 1 + mediaItems.length) % mediaItems.length);
+  const next = () => setOpenIndex((i) => (i + 1) % mediaItems.length);
 
   useEffect(() => {
     if (openIndex === null) return;
@@ -30,7 +29,83 @@ const EventMedia = ({ gallery = [] }) => {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [openIndex, gallery.length]);
+  }, [openIndex, mediaItems.length]);
+
+  const renderPreview = (media) => {
+    if (media.kind === "youtube" && media.thumbnail) {
+      return (
+        <img
+          src={media.thumbnail}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 bg-black"
+        />
+      );
+    }
+
+    if (media.kind === "youtube" || media.kind === "vimeo") {
+      return (
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-primary/40 transition-transform group-hover:scale-105" />
+      );
+    }
+
+    if (media.kind === "video") {
+      return (
+        <video
+          src={media.src}
+          preload="metadata"
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 bg-black"
+        />
+      );
+    }
+
+    return (
+      <img
+        src={media.src}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105"
+      />
+    );
+  };
+
+  const renderLightbox = (media) => {
+    if (media.kind === "youtube" || media.kind === "vimeo") {
+      return (
+        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black">
+          <iframe
+            key={media.embedUrl}
+            src={media.embedUrl}
+            title="Event promo video"
+            className="absolute inset-0 h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+      );
+    }
+
+    if (media.kind === "video") {
+      return (
+        <video
+          key={media.src}
+          src={media.src}
+          controls
+          autoPlay
+          playsInline
+          className="max-h-[80vh] w-full rounded-xl bg-black"
+        />
+      );
+    }
+
+    return (
+      <img
+        src={media.src}
+        alt=""
+        className="max-h-[80vh] w-full object-contain rounded-xl"
+      />
+    );
+  };
 
   return (
     <div>
@@ -40,32 +115,20 @@ const EventMedia = ({ gallery = [] }) => {
       </div>
 
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-        {visible.map((img, i) => {
+        {visible.map((media, i) => {
           const isLast = i === visible.length - 1;
-          const video = isVideo(img);
-          const src = cleanSrc(img);
+          const showPlayOverlay = isEmbeddableVideo(media) && !(isLast && remainingCount > 0);
+
           return (
             <button
               type="button"
-              key={img + i}
+              key={`${media.src}-${i}`}
               onClick={() => setOpenIndex(i)}
               className="relative rounded-2xl overflow-hidden aspect-[4/3] border border-primary-border cursor-pointer group"
             >
-              {video ? (
-                <video
-                  src={src}
-                  preload="metadata"
-                  muted
-                  className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105"
-                />
-              ) : (
-                <img
-                  src={src}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105"
-                />
-              )}
-              {video && !isLast && (
+              {renderPreview(media)}
+
+              {showPlayOverlay && (
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                   <div className="w-9 h-9 rounded-2xl bg-white/90 flex items-center justify-center">
                     <Icon
@@ -77,6 +140,7 @@ const EventMedia = ({ gallery = [] }) => {
                   </div>
                 </div>
               )}
+
               {isLast && remainingCount > 0 && (
                 <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                   <span className="text-sm font-semibold text-white">
@@ -110,7 +174,7 @@ const EventMedia = ({ gallery = [] }) => {
               prev();
             }}
             aria-label="Previous"
-            className="absolute left-3 sm:left-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors  cursor-pointer"
+            className="absolute left-3 sm:left-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
           >
             <Icon name="ChevronLeft" width={20} height={20} />
           </button>
@@ -119,23 +183,9 @@ const EventMedia = ({ gallery = [] }) => {
             className="max-w-4xl w-full flex flex-col items-center gap-3"
             onClick={(e) => e.stopPropagation()}
           >
-            {isVideo(gallery[openIndex]) ? (
-              <video
-                key={gallery[openIndex]}
-                src={cleanSrc(gallery[openIndex])}
-                controls
-                autoPlay
-                className="max-h-[80vh] w-full rounded-xl bg-black"
-              />
-            ) : (
-              <img
-                src={cleanSrc(gallery[openIndex])}
-                alt=""
-                className="max-h-[80vh] w-full object-contain rounded-xl"
-              />
-            )}
+            {renderLightbox(mediaItems[openIndex])}
             <span className="text-sm text-white/70">
-              {openIndex + 1} / {gallery.length}
+              {openIndex + 1} / {mediaItems.length}
             </span>
           </div>
 

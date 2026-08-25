@@ -39,7 +39,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-40 bg-black/50" aria-hidden="true">
+        <div className="fixed inset-0 z-40" aria-hidden="true">
             <div
                 ref={panelRef}
                 className={cn(
