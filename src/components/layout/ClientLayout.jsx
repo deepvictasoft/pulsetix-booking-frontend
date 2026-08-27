@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 const Header = dynamic(() => import("./Header"), { ssr: false });
 const Footer = dynamic(() => import("./Footer"), { ssr: false });
 
-const AUTH_ROUTES = ["/login", "/signup", "/forgot-password", "/reset-password"];
+const AUTH_ROUTES = ["/login", "/signup", "/logout", "/forgot-password", "/reset-password"];
 
 const LayoutContent = ({ children }) => {
   const pathname = usePathname();

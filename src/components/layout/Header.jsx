@@ -3,13 +3,15 @@ import { useState } from "react";
 import Link from "next/link";
 import Icon from "../ui/Icon";
 import Avatar from "../ui/Avatar";
-import { HOME_NAV_ITEM, IS_LOGGED_IN } from "@/constants/navigation";
+import { HOME_NAV_ITEM } from "@/constants/navigation";
+import { useBuyerAuth } from "@/hooks/useBuyerAuth";
 import dynamic from "next/dynamic";
 
 const Sidebar = dynamic(() => import("./Sidebar"), { ssr: false });
 
 const Header = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const { isLoggedIn, initials } = useBuyerAuth();
 
     return (
         <header className="sticky top-0 w-full z-30 backdrop-blur-md border-b border-secondary-border">
@@ -49,10 +51,10 @@ const Header = () => {
                         type="button"
                         onClick={() => setIsSidebarOpen((prev) => !prev)}
                         className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors"
-                        aria-label={IS_LOGGED_IN ? "Open profile menu" : "Toggle menu"}
+                        aria-label={isLoggedIn ? "Open profile menu" : "Toggle menu"}
                     >
-                        {IS_LOGGED_IN ? (
-                            <Avatar size={40} className="border border-secondary-border rounded-full cursor-pointer" />
+                        {isLoggedIn ? (
+                            <Avatar size={40} initials={initials} className="border border-secondary-border rounded-full cursor-pointer" />
                         ) : (
                             <Icon name="Menu" width={18} height={18} className="text-primary-text cursor-pointer" />
                         )}

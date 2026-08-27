@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Icon from "@/components/ui/Icon";
 import { Input, Label } from "@/components/ui/FormField";
 import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Typography from "../ui/Typography";
+import { registerBuyer } from "@/lib/buyer/authClient";
 
 /* ── helpers ─────────────────────────────────────────── */
 function PasswordStrength({ password }) {
@@ -81,13 +83,18 @@ function SocialBtn({ icon, label }) {
 
 /* ── Main ────────────────────────────────────────────── */
 export default function SignupPage() {
+  const router = useRouter();
+
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    mobileNumber: "",
     password: "",
     agreed: false,
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const set = (k) => (e) =>
     setForm((p) => ({
@@ -95,14 +102,31 @@ export default function SignupPage() {
       [k]: e.target.type === "checkbox" ? e.target.checked : e.target.value,
     }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: wire to auth
-    console.log("signup", form);
+    setLoading(true);
+    setError(null);
+
+    const full_name = `${form.firstName.trim()} ${form.lastName.trim()}`.trim();
+
+    try {
+      await registerBuyer({
+        full_name,
+        email: form.email.trim().toLowerCase(),
+        mobile_number: form.mobileNumber.trim(),
+        password: form.password,
+      });
+      router.push("/");
+      router.refresh();
+    } catch (err) {
+      setError(err.message ?? "Could not create account");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex max-w-[1300px] mx-auto">
+    <div className="min-h-screen flex mx-auto">
       {/* ── LEFT PANEL ─────────────────────────────────── */}
       <div className="hidden lg:flex lg:w-[45%] relative flex-col overflow-hidden">
         {/* Hero image */}
@@ -190,6 +214,12 @@ export default function SignupPage() {
             </Typography>
           </div>
 
+          {error ? (
+            <div className="w-full max-w-md mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+              {error}
+            </div>
+          ) : null}
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
             {/* Name row */}
@@ -220,6 +250,18 @@ export default function SignupPage() {
               value={form.email}
               onChange={set("email")}
               required
+              autoComplete="email"
+            />
+
+            {/* Mobile */}
+            <Input
+              label="MOBILE NUMBER"
+              type="tel"
+              placeholder="+35312345678"
+              value={form.mobileNumber}
+              onChange={set("mobileNumber")}
+              required
+              autoComplete="tel"
             />
 
             {/* Password */}
@@ -232,6 +274,7 @@ export default function SignupPage() {
                 onChange={set("password")}
                 required
                 minLength={8}
+                autoComplete="new-password"
                 className="w-full h-11 rounded-xl border border-secondary-border bg-field-bg px-4 text-sm text-foreground-text placeholder:text-muted-text outline-none transition-all focus:border-primary focus:ring-2 focus:ring-ring/40"
               />
               <PasswordStrength password={form.password} />
@@ -277,12 +320,13 @@ export default function SignupPage() {
             {/* Submit */}
             <button
               type="submit"
+              disabled={loading || !form.agreed}
               className={cn(
                 buttonVariants({ variant: "primary", size: "lg" }),
-                "w-full rounded-xl",
+                "w-full rounded-xl disabled:opacity-60 disabled:cursor-not-allowed",
               )}
             >
-              CREATE ACCOUNT
+              {loading ? "Creating account..." : "CREATE ACCOUNT"}
             </button>
 
             {/* Divider */}

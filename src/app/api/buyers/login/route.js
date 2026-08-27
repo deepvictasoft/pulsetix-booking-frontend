@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buyerLoginAPI, buyerRegisterAPI } from "@/api/buyer/api";
+import { buyerLoginAPI } from "@/api/buyer/api";
 
 export async function POST(request) {
   try {
