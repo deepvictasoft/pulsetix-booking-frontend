@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import Icon from "@/components/ui/Icon";
 import { Input, Label } from "@/components/ui/FormField";
 import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Typography from "../ui/Typography";
+import { loginBuyer } from "@/lib/buyer/authClient";
 
 /* ── Social button ───────────────────────────────────── */
 function SocialBtn({ icon, label }) {
@@ -34,12 +36,18 @@ function SocialBtn({ icon, label }) {
 
 /* ── Main ────────────────────────────────────────────── */
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+
   const [form, setForm] = useState({
-    emailOrPhone: "",
+    email: "",
     password: "",
     remember: false,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const set = (k) => (e) =>
     setForm((p) => ({
@@ -47,14 +55,27 @@ export default function LoginPage() {
       [k]: e.target.type === "checkbox" ? e.target.checked : e.target.value,
     }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: wire to auth
-    console.log("login", form);
+    setLoading(true);
+    setError(null);
+
+    try {
+      await loginBuyer({
+        email: form.email.trim().toLowerCase(),
+        password: form.password,
+      });
+      router.push(redirectTo);
+      router.refresh();
+    } catch (err) {
+      setError(err.message ?? "Could not log in");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex max-w-[1300px] mx-auto">
+    <div className="min-h-screen flex mx-auto">
       {/* ── LEFT PANEL ─────────────────────────────────── */}
       <div className="hidden lg:flex lg:w-[45%] relative flex-col overflow-hidden">
         {/* Hero image */}
@@ -133,17 +154,23 @@ export default function LoginPage() {
             </Typography>
           </div>
 
+          {error ? (
+            <div className="w-full max-w-md mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+              {error}
+            </div>
+          ) : null}
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
-            {/* Email or Phone */}
             <Input
-              label="EMAIL OR PHONE"
-              type="text"
-              placeholder="Enter your email or phone"
+              label="EMAIL"
+              type="email"
+              placeholder="Enter your email"
               icon="User"
-              value={form.emailOrPhone}
-              onChange={set("emailOrPhone")}
+              value={form.email}
+              onChange={set("email")}
               required
+              autoComplete="email"
             />  
 
             {/* Password */}
@@ -162,6 +189,7 @@ export default function LoginPage() {
                   value={form.password}
                   onChange={set("password")}
                   required
+                  autoComplete="current-password"
                   className="w-full h-11 rounded-lg border border-secondary-border bg-field-bg pl-10 pr-11 text-sm text-foreground-text placeholder:text-muted-text outline-none transition-all focus:border-primary focus:ring-2 focus:ring-ring/40"
                 />
                 <button
@@ -202,13 +230,14 @@ export default function LoginPage() {
             {/* Submit */}
             <button
               type="submit"
+              disabled={loading}
               className={cn(
                 buttonVariants({ variant: "primary", size: "lg" }),
-                "w-full rounded-xl",
+                "w-full rounded-xl disabled:opacity-60 disabled:cursor-not-allowed",
               )}
             >
-              Log In
-              <Icon name="ArrowRight" width={16} height={16} />
+              {loading ? "Logging in..." : "Log In"}
+              {!loading ? <Icon name="ArrowRight" width={16} height={16} /> : null}
             </button>
 
             {/* Divider */}

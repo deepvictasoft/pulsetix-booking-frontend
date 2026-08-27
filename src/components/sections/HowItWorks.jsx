@@ -5,7 +5,7 @@ import { HOW_IT_WORKS } from "@/constants/sectionsData";
 const HowItWorks = () => {
   return (
     <section className="mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 mt-12 lg:mt-16">
-      <Typography variant="sectionTitle" className="mb-10">
+      <Typography variant="heading2" className="mb-10">
         How it <span className="text-gradient">works</span>
       </Typography>
 

@@ -57,7 +57,7 @@ const TicketCard = ({ event, variant = "ticket", href, showHeart = true }) => {
 
       <div className="flex flex-col gap-3 p-4 flex-1">
         <div className="flex items-start gap-3">
-          <div className="w-11 flex-shrink-0 rounded-xl border border-secondary-border bg-[#1A1C26] py-1.5 flex flex-col items-center">
+          <div className="w-11 flex-shrink-0 rounded-xl border border-secondary-border bg-background py-1.5 flex flex-col items-center">
             <span className="text-[9px] font-semibold uppercase text-primary leading-none">{dateMonth}</span>
             <Typography variant="sectionTitle" className="!text-base mt-0.5">{dateDay}</Typography>
           </div>

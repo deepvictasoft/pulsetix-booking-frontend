@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import Typography from "@/components/ui/Typography";
 import OrderSummary from "@/components/ui/OrderSummary";
 import TicketTierCard from "@/components/ticket-booking-sections/TicketTierCard";
@@ -14,6 +15,7 @@ import {
 
 const TicketBookingContent = ({ event }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const { ticketTiers = [] } = event;
   const [quantities, setQuantities] = useState({});
   const [checkoutLoading, setCheckoutLoading] = useState(false);
@@ -61,7 +63,7 @@ const TicketBookingContent = ({ event }) => {
     const accessToken = getBuyerAccessToken();
 
     if (!accessToken) {
-      setCheckoutError("Please log in to complete your booking.");
+      setCheckoutError("login");
       return;
     }
 
@@ -132,7 +134,18 @@ const TicketBookingContent = ({ event }) => {
             checkoutDisabled={checkoutLoading}
           />
 
-          {checkoutError ? (
+          {checkoutError === "login" ? (
+            <Typography variant="body2" className="!text-sm text-red-500 text-center">
+              Please{" "}
+              <Link
+                href={`/login?redirect=${encodeURIComponent(pathname)}`}
+                className="text-primary font-medium hover:underline"
+              >
+                log in
+              </Link>{" "}
+              to complete your booking.
+            </Typography>
+          ) : checkoutError ? (
             <Typography variant="body2" className="!text-sm text-red-500 text-center">
               {checkoutError}
             </Typography>

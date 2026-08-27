@@ -7,13 +7,7 @@ import { HELP_TABS } from "@/constants/helpData";
 
 const HelpHero = ({ activeTab, setActiveTab, search, setSearch }) => {
   return (
-    <section className="relative overflow-hidden py-16 px-6 text-center ">
-      {/* Glow blobs */}
-      {/* Glow blobs */}
-      {/* Glow blobs */}
-      <div className="absolute top-8 left-16 w-32 h-32 rounded-full opacity-20 pointer-events-none bg-[radial-gradient(circle,_#7C3AED_0%,_transparent_70%)]" />
-
-      <div className="absolute top-4 right-20 w-40 h-40 rounded-full opacity-[0.15] pointer-events-none bg-[radial-gradient(circle,_#2DD4BF_0%,_transparent_70%)]" />
+    <section className="relative overflow-hidden pt-16 pb-6 px-6 text-center ">
       
       <div className="relative max-w-2xl mx-auto">
         <Typography variant="heading" className="mb-3">

@@ -23,7 +23,7 @@ export default async function EventDetailPage({ params }) {
     <>
       <EventDetailHero event={event} />
 
-      <section className="mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 py-10 grid lg:grid-cols-3 gap-10 lg:gap-44">
+      <section className="mx-auto px-6 lg:px-10 xl:px-14 2xl:px-20 py-10 grid lg:grid-cols-3 gap-10 2xl:gap-44">
         <div className="lg:col-span-2 flex flex-col gap-10">
           <EventAbout event={event} />
           <EventMedia gallery={event.gallery} />

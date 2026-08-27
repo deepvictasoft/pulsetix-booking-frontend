@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Icon from "../ui/Icon";
 import Avatar from "../ui/Avatar";
 import {
@@ -9,12 +10,15 @@ import {
     HELP_NAV_ITEM,
     LOGOUT_NAV_ITEM,
     GET_APP_ITEM,
-    CURRENT_USER,
+    AUTH_NAV_ITEM,
 } from "@/constants/navigation";
+import { useBuyerAuth } from "@/hooks/useBuyerAuth";
 import { cn } from "@/lib/utils";
 
 const Sidebar = ({ isOpen, onClose }) => {
     const panelRef = useRef(null);
+    const router = useRouter();
+    const { isLoggedIn, user, initials, logout } = useBuyerAuth();
 
     useEffect(() => {
         if (!isOpen) return;
@@ -36,6 +40,13 @@ const Sidebar = ({ isOpen, onClose }) => {
         };
     }, [isOpen, onClose]);
 
+    const handleLogout = () => {
+        logout();
+        onClose();
+        router.push("/login");
+        router.refresh();
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -50,12 +61,28 @@ const Sidebar = ({ isOpen, onClose }) => {
                     "p-4 flex flex-col items-center gap-0.5"
                 )}
             >
-                <Avatar size={48} className="mb-1.5" />
+                <Avatar size={48} initials={isLoggedIn ? initials : undefined} className="mb-1.5" />
 
-                <p className="text-foreground-text font-medium text-sm">
-                    {CURRENT_USER.firstName} {CURRENT_USER.lastName}
-                </p>
-                <p className="text-muted-text text-xs mb-2.5">{CURRENT_USER.email}</p>
+                {isLoggedIn ? (
+                    <>
+                        <p className="text-foreground-text font-medium text-sm">
+                            {user?.full_name}
+                        </p>
+                        <p className="text-muted-text text-xs mb-2.5">{user?.email}</p>
+                    </>
+                ) : (
+                    <>
+                        <p className="text-foreground-text font-medium text-sm">Welcome to PulseTix</p>
+                        <p className="text-muted-text text-xs mb-2.5">Log in to manage your tickets</p>
+                        <Link
+                            href={AUTH_NAV_ITEM.to}
+                            onClick={onClose}
+                            className="w-full text-center rounded-full bg-gradient py-2 text-sm font-semibold text-primary-text hover:opacity-90 transition-opacity mb-2.5"
+                        >
+                            {AUTH_NAV_ITEM.label}
+                        </Link>
+                    </>
+                )}
 
                 <ul className="w-full flex flex-col">
                     {NAV_ITEMS.map((item) => (
@@ -72,25 +99,27 @@ const Sidebar = ({ isOpen, onClose }) => {
                     ))}
                 </ul>
 
-                <ul className="w-full flex flex-col">
-                    {ACCOUNT_NAV_ITEMS.map((item) => (
-                        <li key={item.label}>
-                            <Link
-                                href={item.to}
-                                onClick={onClose}
-                                className="flex items-center gap-3 px-2 py-2 rounded-2xl text-foreground-text hover:bg-primary/10 transition-colors"
-                            >
-                                <Icon name={item.icon} width={16} height={16} className="text-secondary-text" />
-                                <span className="text-sm font-medium flex-1">{item.label}</span>
-                                {item.badge && (
-                                    <span className="min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-primary-text text-[9px] font-semibold flex items-center justify-center">
-                                        {item.badge}
-                                    </span>
-                                )}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                {isLoggedIn ? (
+                    <ul className="w-full flex flex-col">
+                        {ACCOUNT_NAV_ITEMS.map((item) => (
+                            <li key={item.label}>
+                                <Link
+                                    href={item.to}
+                                    onClick={onClose}
+                                    className="flex items-center gap-3 px-2 py-2 rounded-2xl text-foreground-text hover:bg-primary/10 transition-colors"
+                                >
+                                    <Icon name={item.icon} width={16} height={16} className="text-secondary-text" />
+                                    <span className="text-sm font-medium flex-1">{item.label}</span>
+                                    {item.badge && (
+                                        <span className="min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-primary-text text-[9px] font-semibold flex items-center justify-center">
+                                            {item.badge}
+                                        </span>
+                                    )}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                ) : null}
 
                 <ul className="w-full flex flex-col">
                     <li>
@@ -103,16 +132,18 @@ const Sidebar = ({ isOpen, onClose }) => {
                             <span className="text-sm font-medium">{HELP_NAV_ITEM.label}</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link
-                            href={LOGOUT_NAV_ITEM.to}
-                            onClick={onClose}
-                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors"
-                        >
-                            <Icon name={LOGOUT_NAV_ITEM.icon} width={16} height={16} className="text-red-400" />
-                            <span className="text-sm font-medium">{LOGOUT_NAV_ITEM.label}</span>
-                        </Link>
-                    </li>
+                    {isLoggedIn ? (
+                        <li>
+                            <button
+                                type="button"
+                                onClick={handleLogout}
+                                className="w-full flex items-center gap-3 px-2 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors cusror-pointer"
+                            >
+                                <Icon name={LOGOUT_NAV_ITEM.icon} width={16} height={16} className="text-red-400" />
+                                <span className="text-sm font-medium">{LOGOUT_NAV_ITEM.label}</span>
+                            </button>
+                        </li>
+                    ) : null}
                 </ul>
 
                 <hr className="w-full border border-primary-border mt-2 mb-2.5" />

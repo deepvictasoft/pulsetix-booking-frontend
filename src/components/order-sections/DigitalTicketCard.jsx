@@ -6,9 +6,9 @@ const DigitalTicketCard = ({ ticket, tierLabel, index, total }) => {
   const hasQr = Boolean(ticket.qrCode);
 
   return (
-    <div className="rounded-2xl border border-secondary-border bg-[#1A1C26] p-4 flex flex-col gap-4">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
+    <div className="rounded-2xl border border-secondary-border border-dashed bg-background p-4 flex flex-col gap-4">
+      <div className="flex items-start justify-between gap-3 border-b border-primary-border border-dashed">
+        <div className="min-w-0 pb-3">
           <Typography variant="body" className="!text-sm font-semibold truncate">
             {tierLabel}
           </Typography>
@@ -41,7 +41,7 @@ const DigitalTicketCard = ({ ticket, tierLabel, index, total }) => {
 
         <div className="flex flex-col gap-2 min-w-0 flex-1 w-full sm:w-auto">
           <Typography variant="body2" className="!text-xs uppercase tracking-wide text-muted-text">
-            Ticket code
+            Ticket Number
           </Typography>
           <Typography variant="sectionTitle" className="!text-lg break-all">
             {ticket.ticketCode}

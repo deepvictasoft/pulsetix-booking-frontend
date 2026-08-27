@@ -11,7 +11,7 @@ import Typography from "../ui/Typography";
 const Footer = () => {
   return (
     <footer className="bg-[#11202E] border-t border border-secondary-border px-8 lg:px-14 2xl:px-20">
-      <div className="mx-auto pt-10 pb-4 lg:pt-14 lg:pb-6">
+      <div className="mx-auto max-w-[1400px] pt-10 pb-4 lg:pt-14 lg:pb-6">
         <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-16">
           <div className="max-w-xs">
             <Link href={HOME_NAV_ITEM.to} className="inline-block mb-4 text-gradient">
