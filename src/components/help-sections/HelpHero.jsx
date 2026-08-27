@@ -7,16 +7,14 @@ import { HELP_TABS } from "@/constants/helpData";
 
 const HelpHero = ({ activeTab, setActiveTab, search, setSearch }) => {
   return (
-    <section className="relative overflow-hidden py-16 px-6 text-center bg-[linear-gradient(180deg,_#0D0F1E_0%,_#141726_100%)]">
+    <section className="relative overflow-hidden py-16 px-6 text-center ">
       {/* Glow blobs */}
       {/* Glow blobs */}
       {/* Glow blobs */}
       <div className="absolute top-8 left-16 w-32 h-32 rounded-full opacity-20 pointer-events-none bg-[radial-gradient(circle,_#7C3AED_0%,_transparent_70%)]" />
 
       <div className="absolute top-4 right-20 w-40 h-40 rounded-full opacity-[0.15] pointer-events-none bg-[radial-gradient(circle,_#2DD4BF_0%,_transparent_70%)]" />
-
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-32 opacity-20 pointer-events-none bg-[radial-gradient(ellipse,_#818CF8_0%,_transparent_70%)]" />
-
+      
       <div className="relative max-w-2xl mx-auto">
         <Typography variant="heading" className="mb-3">
           How can we help?

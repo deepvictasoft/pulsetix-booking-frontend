@@ -12,6 +12,7 @@ const nextConfig = {
       },
     ],
   },
+  allowedDevOrigins: ['xoutzc-ip-103-107-60-156.tunnelmole.net'],
   async rewrites() {
     const serverHost =
       process.env.SERVER_HOST_URL?.replace(/\/$/, "") ??

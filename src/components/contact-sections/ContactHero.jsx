@@ -7,7 +7,7 @@ import headphone from "@/assets/headphone.png";
 
 const ContactHero = () => {
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(180deg,_#0D0F1E_0%,_#141726_100%)] px-6 lg:px-10 xl:px-14 2xl:px-20">
+    <section className="relative overflow-hidden bg-background px-6 lg:px-10 xl:px-14 2xl:px-20">
       {/* Glow blobs */}
       <div className="absolute top-8 left-16 w-48 h-48 rounded-full opacity-20 pointer-events-none bg-[radial-gradient(circle,_#7C3AED_0%,_transparent_70%)]" />
       <div className="absolute top-4 right-20 w-56 h-56 rounded-full opacity-[0.15] pointer-events-none bg-[radial-gradient(circle,_#2DD4BF_0%,_transparent_70%)]" />

@@ -11,7 +11,7 @@ const EventsHero = () => {
         />
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent" />
 
-        <div className="relative h-full max-w-7xl mx-auto px-6 lg:px-10 flex flex-col justify-center">
+        <div className="relative h-full mx-auto px-6 lg:px-10 xl:px-20 2xl:px-30 flex flex-col justify-center">
           <Typography variant="heading" className="mb-2 text-foreground-text">
             Events in <span className="text-gradient">Dublin</span>
           </Typography>

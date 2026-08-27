@@ -57,17 +57,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 </p>
                 <p className="text-muted-text text-xs mb-2.5">{CURRENT_USER.email}</p>
 
-                {/* <Link
-                    href="/settings"
-                    onClick={onClose}
-                    className="w-full text-center rounded-full border border-primary-border py-1.5 text-xs font-semibold text-foreground-text hover:border-primary hover:text-primary transition-colors mb-2.5"
-                >
-                    View Profile
-                </Link> */}
-
-                {/* <hr className="w-full border border-primary-border mb-1" /> */}
-
-                <ul className="w-full flex flex-col py-1">
+                <ul className="w-full flex flex-col">
                     {NAV_ITEMS.map((item) => (
                         <li key={item.label}>
                             <Link
@@ -82,9 +72,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     ))}
                 </ul>
 
-                {/* <hr className="w-full border border-primary-border mb-1" /> */}
-
-                <ul className="w-full flex flex-col py-1">
+                <ul className="w-full flex flex-col">
                     {ACCOUNT_NAV_ITEMS.map((item) => (
                         <li key={item.label}>
                             <Link
@@ -104,9 +92,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     ))}
                 </ul>
 
-                {/* <hr className="w-full border border-primary-border mb-1" /> */}
-
-                <ul className="w-full flex flex-col py-1">
+                <ul className="w-full flex flex-col">
                     <li>
                         <Link
                             href={HELP_NAV_ITEM.to}
@@ -129,12 +115,12 @@ const Sidebar = ({ isOpen, onClose }) => {
                     </li>
                 </ul>
 
-                <hr className="w-full border border-primary-border mb-2.5" />
+                <hr className="w-full border border-primary-border mt-2 mb-2.5" />
 
                 <Link
                     href={GET_APP_ITEM.to}
                     onClick={onClose}
-                    className="w-full text-center rounded-full border border-white py-2 text-sm font-semibold text-foreground-text hover:text-primary-text hover:bg-white transition-colors"
+                    className="w-full text-center rounded-full border border-white py-2 text-sm font-semibold text-foreground-text hover:text-primary transition-colors"
                 >
                     {GET_APP_ITEM.label}
                 </Link>

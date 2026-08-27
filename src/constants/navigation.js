@@ -3,8 +3,6 @@ export const HOME_NAV_ITEM = { label: "Home", to: "/" };
 // Items shown inside the Sidebar (hamburger dropdown)
 export const NAV_ITEMS = [
     { label: "Events", to: "/events", icon: "PartyPopper" },
-    { label: "Competitions", to: "/competitions", icon: "Trophy" },
-    { label: "Promoters & Venues", to: "/promoters-venues", icon: "Users" },
 ];
 
 export const AUTH_NAV_ITEM = { label: "Login / Signup", to: "/login" };
@@ -63,7 +61,6 @@ export const FOOTER_ITEMS = [
         items: [
             { label: "Events", to: "/events" },
             { label: "Competitions", to: "/competitions" },
-            { label: "Promoters & Venues", to: "/promoters-venues" },
         ],
     },
     {
